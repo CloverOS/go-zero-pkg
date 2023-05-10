@@ -4,12 +4,16 @@ go 1.20
 
 require (
 	github.com/zeromicro/go-zero v1.5.2
+	gorm.io/driver/mysql v1.5.0
 	gorm.io/gorm v1.25.1
 )
 
 require (
 	github.com/fatih/color v1.15.0 // indirect
+	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
