@@ -12,11 +12,17 @@ type Body struct {
 	Data interface{} `json:"data,omitempty"`
 }
 
-func Response(w http.ResponseWriter, resp interface{}, err BaseError) {
+func Response(w http.ResponseWriter, resp interface{}, err error) {
 	var body Body
-	if err != NilBaseError {
-		body.Code = err.Code
-		body.Msg = err.Msg
+	if err != nil {
+		base, ok := err.(BaseError)
+		if ok {
+			body.Code = base.Code
+			body.Msg = base.Msg
+		} else {
+			body.Code = BizError
+			body.Msg = err.Error()
+		}
 	} else {
 		body.Code = 200
 		body.Msg = "Success"

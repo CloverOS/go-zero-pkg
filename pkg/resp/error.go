@@ -8,8 +8,6 @@ const (
 	TokenError
 )
 
-var NilBaseError = BaseError{}
-
 type BaseError struct {
 	Msg  string `json:"msg"`  //错误信息
 	Code int    `json:"code"` //错误码
@@ -36,7 +34,7 @@ func MustError(msg string, err error) BaseError {
 	}
 }
 
-func NewError(code int, msg string, err error) BaseError {
+func MustBizError(code int, msg string, err error) BaseError {
 	return BaseError{
 		Msg:  msg,
 		Code: code,
