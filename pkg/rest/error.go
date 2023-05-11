@@ -26,18 +26,33 @@ func MustDefaultError(err error) BaseError {
 	}
 }
 
-func MustError(msg string, err error) BaseError {
-	return BaseError{
-		Msg:  msg,
-		Code: BizError,
-		Err:  err,
+func MustError(code int, msg string, err error) BaseError {
+	if msg == "" {
+		msg = err.Error()
 	}
-}
-
-func MustBizError(code int, msg string, err error) BaseError {
 	return BaseError{
 		Msg:  msg,
 		Code: code,
 		Err:  err,
 	}
+}
+
+func MustBizError(msg string, err error) BaseError {
+	return MustError(BizError, msg, err)
+}
+
+func MustMysqlError(msg string, err error) BaseError {
+	return MustError(MysqlError, msg, err)
+}
+
+func MustRedisError(msg string, err error) BaseError {
+	return MustError(RedisError, msg, err)
+}
+
+func MustParseError(msg string, err error) BaseError {
+	return MustError(ParseError, msg, err)
+}
+
+func MustTokenError(msg string, err error) BaseError {
+	return MustError(TokenError, msg, err)
 }
