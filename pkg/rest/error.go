@@ -1,4 +1,4 @@
-package resp
+package rest
 
 const (
 	BizError = iota + 10001
