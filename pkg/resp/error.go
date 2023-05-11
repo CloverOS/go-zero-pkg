@@ -16,7 +16,7 @@ type BaseError struct {
 	Err  error
 }
 
-func (b *BaseError) Error() string {
+func (b BaseError) Error() string {
 	return b.Err.Error()
 }
 
