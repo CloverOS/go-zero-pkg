@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"github.com/zeromicro/go-zero/core/logx"
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
@@ -23,6 +24,7 @@ func Response(w http.ResponseWriter, resp interface{}, err error) {
 			body.Code = BizError
 			body.Msg = err.Error()
 		}
+		logx.Error("response error", err)
 	} else {
 		body.Code = 200
 		body.Msg = "Success"
