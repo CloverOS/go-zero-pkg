@@ -10,10 +10,15 @@ type Page interface {
 	GetPage() int
 }
 
+type DefaultPage struct {
+	Count int `json:"size"` //大小
+	Page  int `json:"page"` //页码
+}
+
 type PageData[T any] struct {
-	Total int64 `json:"total"` //总数
-	Page
-	Data T `json:"data"` //数据
+	Total int64       `json:"total"` //总数
+	Page  DefaultPage `json:"page"`  //页数信息
+	Data  T           `json:"data"`  //数据
 }
 
 func (p PageData[T]) MarshalBinary() ([]byte, error) {
@@ -21,7 +26,10 @@ func (p PageData[T]) MarshalBinary() ([]byte, error) {
 }
 
 func GetPageData[T any, M any](db *gorm.DB, page Page, isScan bool) (pagedata PageData[T], err error) {
-	pagedata.Page = page
+	pagedata.Page = DefaultPage{
+		Count: page.GetCount(),
+		Page:  page.GetPage(),
+	}
 	var model M
 	temp := db.Model(&model)
 	err = temp.Count(&pagedata.Total).Error
@@ -42,7 +50,10 @@ func GetPageData[T any, M any](db *gorm.DB, page Page, isScan bool) (pagedata Pa
 }
 
 func GetPageDataNilModel[T any](db *gorm.DB, page Page, isScan bool) (pagedata PageData[T], err error) {
-	pagedata.Page = page
+	pagedata.Page = DefaultPage{
+		Count: page.GetCount(),
+		Page:  page.GetPage(),
+	}
 	temp := db
 	err = temp.Count(&pagedata.Total).Error
 	if err != nil {
