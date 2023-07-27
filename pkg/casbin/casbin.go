@@ -58,7 +58,12 @@ func NewGormCasbin(gormDb *gorm.DB, watch *redis.Config, watchChannel string) *C
 		panic("casbin set watcher failed: " + err.Error())
 	}
 	err = w.SetUpdateCallback(func(s string) {
-		fmt.Println("------>update casbin :" + s)
+		err = syncedEnforcer.LoadPolicy()
+		if err != nil {
+			fmt.Println("load casbin policy failed")
+		} else {
+			fmt.Println("------>update casbin :" + s)
+		}
 	})
 	if err != nil {
 		panic("casbin update callback failed: " + err.Error())
