@@ -3,13 +3,14 @@ module github.com/CloverOS/go-zero-pkg
 go 1.20
 
 require (
-	github.com/billcobbler/casbin-redis-watcher/v2 v2.0.0-20211014141847-d29c8619193d
 	github.com/casbin/casbin/v2 v2.69.0
 	github.com/casbin/gorm-adapter/v3 v3.17.0
+	github.com/casbin/redis-watcher/v2 v2.5.0
 	github.com/dchest/captcha v1.0.0
 	github.com/fsnotify/fsnotify v1.6.0
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/matoous/go-nanoid/v2 v2.0.0
+	github.com/redis/go-redis/v9 v9.0.3
 	github.com/spf13/viper v1.15.0
 	github.com/zeromicro/go-zero v1.5.2
 	go.mongodb.org/mongo-driver v1.11.4
@@ -26,7 +27,6 @@ require (
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/fatih/color v1.15.0 // indirect
 	github.com/felixge/fgprof v0.9.3 // indirect
-	github.com/garyburd/redigo v1.6.0 // indirect
 	github.com/glebarez/go-sqlite v1.20.3 // indirect
 	github.com/glebarez/sqlite v1.7.0 // indirect
 	github.com/go-logr/logr v1.2.3 // indirect

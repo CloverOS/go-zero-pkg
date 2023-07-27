@@ -3,10 +3,11 @@ package casbin
 import (
 	"fmt"
 	"github.com/CloverOS/go-zero-pkg/pkg/redis"
-	rediswatcher "github.com/billcobbler/casbin-redis-watcher/v2"
 	"github.com/casbin/casbin/v2"
 	"github.com/casbin/casbin/v2/model"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
+	rediswatcher "github.com/casbin/redis-watcher/v2"
+	redisv9 "github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 	"strconv"
 )
@@ -43,7 +44,15 @@ func NewGormCasbin(gormDb *gorm.DB, watch *redis.Config) *Casbin {
 	}
 	a, _ := gormadapter.NewAdapterByDBUseTableName(gormDb, "role", "api_resource")
 	syncedEnforcer, _ := casbin.NewSyncedEnforcer(m, a)
-	w, _ := rediswatcher.NewWatcher(watch.Addr, rediswatcher.Password(watch.Password), rediswatcher.Channel("/casbinchanel"))
+	w, _ := rediswatcher.NewWatcher(watch.Addr, rediswatcher.WatcherOptions{
+		Options: redisv9.Options{
+			Network:  "tcp",
+			Password: watch.Password,
+		},
+		Channel: "/casbin",
+		// Only exists in test, generally be true
+		IgnoreSelf: false,
+	})
 	err = syncedEnforcer.SetWatcher(w)
 	if err != nil {
 		panic("casbin set watcher failed: " + err.Error())
