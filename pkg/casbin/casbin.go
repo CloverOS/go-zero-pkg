@@ -18,7 +18,7 @@ type Casbin struct {
 	syncedEnforcer *casbin.SyncedEnforcer
 }
 
-func NewGormCasbin(gormDb *gorm.DB, watch *redis.Config) *Casbin {
+func NewGormCasbin(gormDb *gorm.DB, watch *redis.Config, watchChannel string) *Casbin {
 	rbac := `
 		[request_definition]
 		r = sub, obj, act
@@ -49,9 +49,9 @@ func NewGormCasbin(gormDb *gorm.DB, watch *redis.Config) *Casbin {
 			Network:  "tcp",
 			Password: watch.Password,
 		},
-		Channel: "/casbin",
+		Channel: watchChannel,
 		// Only exists in test, generally be true
-		IgnoreSelf: false,
+		IgnoreSelf: true,
 	})
 	err = syncedEnforcer.SetWatcher(w)
 	if err != nil {
